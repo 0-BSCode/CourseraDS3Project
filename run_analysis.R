@@ -101,4 +101,10 @@ createSummary <- function() {
 
 # Create second data set with average of each variable by activity and subject and write it to a file
 s <- createSummary()
-write.table(s, "./data2.txt")
+
+# Collapse columns containing lists into vectors to prevent writing error
+s$Activity <- vapply(s$Activity, paste, collapse=", ", character(1L))
+s$Subjects <- vapply(s$Subjects, paste, collapse=", ", character(1L))
+
+# Write data set
+write.table(s, "./data2.txt", row.names = FALSE)
